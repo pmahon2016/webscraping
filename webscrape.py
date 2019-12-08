@@ -1,33 +1,24 @@
-import requests
-from bs4 import BeautifulSoup as BS
+import requests  # requests lib
+from bs4 import BeautifulSoup as BS  # don't need all of BeautifulSoup
 import re
 
-with open('webresults.html','w') as webfile:
-
-    r = requests.get('https://www.newyorktimes.com')
-
+with open('webresults.html', 'w') as savefile:
+    r = requests.get('https://www.yahoo.com')
     print(r.status_code)
-
-    # print(r.content)
 
     soup = BS(r.content, 'html.parser')
 
-    my_results = soup.prettify()
+    texthtml = (soup.get_text())
 
-    # print(my_results)
+    my_result = soup.prettify()
 
-    # for link in soup.find_all('a'):
-    #     print(link.get('href'))
+    savefile.write(my_result)
 
-    webfile.write(my_results)
+    p = re.compile(r'news[^\<|\>]{100}')
 
-    p = re.compile(r'Kardashian')
+    match = re.findall(p, texthtml)
 
-    match = re.findall(p, my_results)
-
-    #
-    print(len(match))
-
-    for line in match:
-        print(line)
+print(len(match))
+for i in match:
+    print(match)
 
